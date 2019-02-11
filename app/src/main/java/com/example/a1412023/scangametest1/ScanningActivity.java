@@ -306,9 +306,9 @@ public class ScanningActivity extends AppCompatActivity{
                     mModeToggle.setImageResource(R.drawable.ic_camera);
                     if(mScannerView != null) {
                         mScannerView.stopCamera();
-                        Log.d(TAG, "setMode: camera stopped");
+                        Log.d(TAG, "setMode: camera stopped"); //yeah sure
                     }else{
-                        Log.d(TAG, "scanner is null"); //uhhhhhh wut
+                        Log.d(TAG, "scanner is null");
                     }
                     break;
             }
