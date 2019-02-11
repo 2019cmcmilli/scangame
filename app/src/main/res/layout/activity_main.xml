@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_vertical"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="16dp"
+    tools:context="com.example.a1412023.scangametest1.MainActivity">
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Click To Scan"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:textSize="30sp"/>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Default Text"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:textSize="30sp"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ProgressBar
+            android:id="@+id/pb_loading_indicator"
+            android:layout_height="42dp"
+            android:layout_width="42dp"
+            android:layout_gravity="center"
+            android:visibility="invisible"/>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:fillViewport="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tv_json"
+                android:text="S C R O L L  V I E W\nS C R O L L  V I E W\nS C R O L L  V I E W\nS C R O L L  V I E W\nS C R O L L  V I E W\nS C R O L L  V I E W\nS C R O L L  V I E W\nS C R O L L  V I E W\nS C R O L L  V I E W\nS C R O L L  V I E W\nS C R O L L  V I E W\nS C R O L L  V I E W\nS C R O L L  V I E W\nS C R O L L  V I E W\nS C R O L L  V I E W\nS C R O L L  V I E W\nS C R O L L  V I E W\nS C R O L L  V I E W\nS C R O L L  V I E W\nS C R O L L  V I E W\nS C R O L L  V I E W\nS C R O L L  V I E W\nS C R O L L  V I E W\nS C R O L L  V I E W\nS C R O L L  V I E W\nS C R O L L  V I E W\nS C R O L L  V I E W\nS C R O L L  V I E W\nS C R O L L  V I E W\nS C R O L L  V I E W\nS C R O L L  V I E W\nS C R O L L  V I E W\nS C R O L L  V I E W\nS C R O L L  V I E W\nS C R O L L  V I E W\nS C R O L L  V I E W\nS C R O L L  V I E W"
+                android:textSize="20sp"
+                android:layout_gravity="center_horizontal"/>
+
+        </ScrollView>
+
+    </FrameLayout>
+
+</LinearLayout>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ScanningActivity"
+    android:background="#FFF">
+
+    <EditText
+        android:id="@+id/et_manual_entry"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_margin="20dp"
+        android:inputType="number"
+        android:digits="0123456789"
+        android:maxLength="13"
+        android:hint="9780123456789"/>
+
+    <EditText
+        android:id="@+id/et_manual_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_margin="20dp"
+        android:hint="Wonderland"/>
+
+    <Button
+        android:id="@+id/bt_manual_submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:paddingHorizontal="30dp"
+        android:layout_margin="20dp"
+        android:layout_gravity="center_horizontal"
+        android:text="Submit"/>
+
+</LinearLayout>
