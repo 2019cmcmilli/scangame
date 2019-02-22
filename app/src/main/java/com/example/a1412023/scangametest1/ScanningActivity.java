@@ -26,6 +26,7 @@ import com.google.zxing.Result;
 import com.google.zxing.BarcodeFormat;
 
 
+import org.jetbrains.annotations.NotNull;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
@@ -162,7 +163,7 @@ public class ScanningActivity extends AppCompatActivity{
         }
 
         @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+        public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
             mScannerView = new ZXingScannerView(getActivity());
             return mScannerView;
         }
@@ -231,9 +232,9 @@ public class ScanningActivity extends AppCompatActivity{
         }
 
         @Override
-        public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-            mManualEntryCode =   (EditText) view.findViewById(R.id.et_manual_entry);
-            mManualEntryTitle =  (EditText) view.findViewById(R.id.et_manual_title);
+        public void onViewCreated(@NotNull View view, @Nullable Bundle savedInstanceState) {
+            mManualEntryCode   = (EditText) view.findViewById(R.id.et_manual_entry);
+            mManualEntryTitle  = (EditText) view.findViewById(R.id.et_manual_title);
             mManualEntrySubmit = (Button)   view.findViewById(R.id.bt_manual_submit);
 
             mManualEntrySubmit.setOnClickListener(new View.OnClickListener(){
@@ -256,7 +257,8 @@ public class ScanningActivity extends AppCompatActivity{
                         return;
                     }
                     Intent result = new Intent();
-                    result.putExtra("CODE", mManualEntryTitle.getText().toString());
+                    result.putExtra("CODE", mManualEntryCode.getText().toString());
+                    result.putExtra("TITLE", mManualEntryTitle.getText().toString());
                     getActivity().setResult(RESULT_OK, result);
                     getActivity().finish();
                 }
@@ -304,12 +306,12 @@ public class ScanningActivity extends AppCompatActivity{
                 case 1:
                     mViewPager.setCurrentItem(1, false);
                     mModeToggle.setImageResource(R.drawable.ic_camera);
-                    if(mScannerView != null) {
+                    /*if(mScannerView != null) {
                         mScannerView.stopCamera();
-                        Log.d(TAG, "setMode: camera stopped"); //yeah sure
+                        Log.d(TAG, "setMode: camera stopped");
                     }else{
                         Log.d(TAG, "scanner is null");
-                    }
+                    }*/
                     break;
             }
         }
