@@ -3,17 +3,22 @@ package com.example.a1412023.scangametest1;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import com.example.a1412023.scangametest1.NetworkUtils;
 
@@ -27,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView mTextView;
     private ProgressBar mLoadingIndicator;
     private TextView mJsonText;
+    private ImageView mCoverView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
         mLoadingIndicator = findViewById(R.id.pb_loading_indicator);
         mJsonText = findViewById(R.id.tv_json);
+        mCoverView = findViewById(R.id.iv_cover_photo);
 
         final Context context = this;
         final Button button = findViewById(R.id.button);
@@ -113,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     JSONObject json = new JSONObject(searchResults);
                     mJsonText.setText(json.toString(4));
+                    new DownloadImageTask((ImageView) findViewById(R.id.iv_cover_photo)).execute(json.getString("coverurl"));
                 }catch (JSONException e){
                     mJsonText.setText("oops");
                 }
@@ -120,6 +128,31 @@ public class MainActivity extends AppCompatActivity {
                 // COMPLETED (16) Call showErrorMessage if the result is null in onPostExecute
                 mJsonText.setText("oop");
             }
+        }
+    }
+
+    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+        ImageView bmImage;
+
+        public DownloadImageTask(ImageView bmImage) {
+            this.bmImage = bmImage;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap mIcon11 = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return mIcon11;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            bmImage.setImageBitmap(result);
         }
     }
 }

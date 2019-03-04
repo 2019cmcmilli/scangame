@@ -31,7 +31,7 @@ import org.jetbrains.annotations.NotNull;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 public class ScanningActivity extends AppCompatActivity{
-    private static ZXingScannerView mScannerView;
+    //private static ZXingScannerView mScannerView;
     private FloatingActionButton mModeToggle;
     private ToggleFragmentAdapter mFragmentAdapter;
     private ViewPager mViewPager;
@@ -298,16 +298,16 @@ public class ScanningActivity extends AppCompatActivity{
                     }else{
                         mViewPager.setCurrentItem(0, false);
                         mModeToggle.setImageResource(R.drawable.ic_dialpad);
-                        if(mScannerView != null) {
-                            mScannerView.startCamera();
-                        }
+                        /*if(getItem(0).getView() != null) {
+                            ((ZXingScannerView)getItem(0).getView()).startCamera();
+                        }*/
                     }
                     break;
                 case 1:
                     mViewPager.setCurrentItem(1, false);
                     mModeToggle.setImageResource(R.drawable.ic_camera);
-                    /*if(mScannerView != null) {
-                        mScannerView.stopCamera();
+                    /*if(getItem(0).getView() != null) {
+                        ((ZXingScannerView)getItem(0).getView()).stopCamera();
                         Log.d(TAG, "setMode: camera stopped");
                     }else{
                         Log.d(TAG, "scanner is null");
