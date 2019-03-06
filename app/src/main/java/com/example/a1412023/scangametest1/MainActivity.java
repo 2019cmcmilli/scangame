@@ -11,6 +11,7 @@ import android.util.Log;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -97,6 +98,8 @@ public class MainActivity extends AppCompatActivity {
             super.onPreExecute();
             mLoadingIndicator.setVisibility(View.VISIBLE);
             mJsonText.setText("L o a d i n g\nl O a d i n g\nl o A d i n g\nl o a D i n g\nl o a d I n g\nl o a d i N g\nl o a d i n G\n");
+            mCoverView.setVisibility(View.INVISIBLE);
+            mCoverView.getLayoutParams().height = 0;
         }
 
         @Override
@@ -138,6 +141,15 @@ public class MainActivity extends AppCompatActivity {
             this.bmImage = bmImage;
         }
 
+        @Override
+        protected void onPreExecute(){
+            super.onPreExecute();
+            bmImage.setVisibility(View.INVISIBLE);
+            bmImage.getLayoutParams().height = 0;
+            mLoadingIndicator.setVisibility(View.VISIBLE);
+        }
+
+        @Override
         protected Bitmap doInBackground(String... urls) {
             String urldisplay = urls[0];
             Bitmap mIcon11 = null;
@@ -151,8 +163,14 @@ public class MainActivity extends AppCompatActivity {
             return mIcon11;
         }
 
+        @Override
         protected void onPostExecute(Bitmap result) {
             bmImage.setImageBitmap(result);
+            bmImage.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+            bmImage.requestLayout();
+            bmImage.setVisibility(View.VISIBLE);
+            Log.v(TAG, "Cover visible");
+            mLoadingIndicator.setVisibility(View.INVISIBLE);
         }
     }
 }
