@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -48,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
         mLoadingIndicator = findViewById(R.id.pb_loading_indicator);
         mJsonText = findViewById(R.id.tv_json);
         mCoverView = findViewById(R.id.iv_cover_photo);
+        mCoverView.setAdjustViewBounds(true);
+        mCoverView.setMaxHeight((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200, getResources().getDisplayMetrics())); //DP to PX
 
         final Context context = this;
         final Button button = findViewById(R.id.button);
@@ -99,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
             mLoadingIndicator.setVisibility(View.VISIBLE);
             mJsonText.setText("L o a d i n g\nl O a d i n g\nl o A d i n g\nl o a D i n g\nl o a d I n g\nl o a d i N g\nl o a d i n G\n");
             mCoverView.setVisibility(View.INVISIBLE);
-            mCoverView.getLayoutParams().height = 0;
+            mCoverView.setImageResource(0);
         }
 
         @Override
@@ -145,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
         protected void onPreExecute(){
             super.onPreExecute();
             bmImage.setVisibility(View.INVISIBLE);
-            bmImage.getLayoutParams().height = 0;
+            bmImage.setImageResource(0);
             mLoadingIndicator.setVisibility(View.VISIBLE);
         }
 
@@ -166,7 +169,6 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Bitmap result) {
             bmImage.setImageBitmap(result);
-            bmImage.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
             bmImage.requestLayout();
             bmImage.setVisibility(View.VISIBLE);
             Log.v(TAG, "Cover visible");
