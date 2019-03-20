@@ -1,14 +1,24 @@
 package com.example.a1412023.scangametest1;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+
+import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
+    public static final String ACTION_SCAN_BARCODE = "com.example.a1412023.scangametest1.action_scan_barcode";
+    public static final int SCAN_REQUEST = 1;
     private String TAG = "Activity_Main";
 
     private BottomNavigationView mBottomNav;
@@ -30,6 +40,16 @@ public class MainActivity extends AppCompatActivity {
         fm.beginTransaction().add(R.id.main_container, fragmentInv, "Ivn").hide(fragmentInv).commit();
         fm.beginTransaction().add(R.id.main_container, fragmentHome, "Home").commit();
         fm.beginTransaction().add(R.id.main_container, fragmentCraft, "Craft").hide(fragmentCraft).commit();
+
+        final Context context = this;
+        final Button button = findViewById(R.id.scan_button);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ScanningActivity.class);
+                intent.setAction(ACTION_SCAN_BARCODE);
+                startActivityForResult(intent, SCAN_REQUEST);
+            }
+        });
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -55,4 +75,17 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
     };
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        if (resultCode == Activity.RESULT_CANCELED) {
+            Log.w(TAG, "Result Cancelled");
+        }
+        else if (requestCode == SCAN_REQUEST) {
+            Log.v(TAG, data.getStringExtra("CODE"));
+            String raw = data.getStringExtra("CODE");
+            // Start a results fragment here
+            URL searchUrl = NetworkUtils.buildUrl(raw);
+            new OpenLibraryQueryTask().execute(searchUrl);
+        }
+    }
 }

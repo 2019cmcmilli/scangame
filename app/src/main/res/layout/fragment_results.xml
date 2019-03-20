@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/covers_anim">
 
-    </android.support.v7.widget.RecyclerView>
-</android.support.constraint.LinearLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/covers_anim"
+        android:layout_width="match_parent"
+        android:paddingLeft="0dp"
+        android:paddingRight="0dp"
+        android:layout_height="wrap_content"
+        />
+
+</FrameLayout>
