@@ -23,15 +23,18 @@ public class MainActivity extends AppCompatActivity {
 
     private BottomNavigationView mBottomNav;
 
-    final Fragment fragmentInv = new InvFragment();
-    final Fragment fragmentHome = new HomeFragment();
-    final Fragment fragmentCraft = new CraftFragment();
-    final FragmentManager fm = getSupportFragmentManager();
-    Fragment activeFragment = fragmentHome;
+    private final Fragment fragmentInv = new InvFragment();
+    private final Fragment fragmentHome = new HomeFragment();
+    private final Fragment fragmentCraft = new CraftFragment();
+    private final FragmentManager fm = getSupportFragmentManager();
+    private Fragment activeFragment = fragmentHome;
+
+    private String resultPending = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+        Log.v(TAG, "onCreate");
         setContentView(R.layout.activity_main);
         mBottomNav = findViewById(R.id.navigation);
         mBottomNav.setSelectedItemId(R.id.navigation_home);
@@ -41,15 +44,25 @@ public class MainActivity extends AppCompatActivity {
         fm.beginTransaction().add(R.id.main_container, fragmentHome, "Home").commit();
         fm.beginTransaction().add(R.id.main_container, fragmentCraft, "Craft").hide(fragmentCraft).commit();
 
-        final Context context = this;
-        final Button button = findViewById(R.id.scan_button);
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(context, ScanningActivity.class);
-                intent.setAction(ACTION_SCAN_BARCODE);
-                startActivityForResult(intent, SCAN_REQUEST);
-            }
-        });
+    }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+        Log.v(TAG, "onStart");
+        if(resultPending.length() > 0){
+            Bundle result = new Bundle();
+            result.putString("CODE", resultPending);
+            Fragment fragmentRes = new ResultsFragment();
+            fragmentRes.setArguments(result);
+            fm.beginTransaction().add(R.id.main_container, fragmentRes, "Res").hide(activeFragment).commit();
+        }
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        Log.v(TAG, "onResume");
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -76,16 +89,28 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    @Override
+    public void onSaveInstanceState(Bundle state){
+        super.onSaveInstanceState(state);
+        Log.v(TAG, "onSaveInstanceState");
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle bundle){
+        super.onRestoreInstanceState(bundle);
+        Log.v(TAG, "onRestoreInstanceState");
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         if (resultCode == Activity.RESULT_CANCELED) {
             Log.w(TAG, "Result Cancelled");
-        }
-        else if (requestCode == SCAN_REQUEST) {
-            Log.v(TAG, data.getStringExtra("CODE"));
-            String raw = data.getStringExtra("CODE");
-            // Start a results fragment here
-            URL searchUrl = NetworkUtils.buildUrl(raw);
-            new OpenLibraryQueryTask().execute(searchUrl);
+        }else{
+            if (requestCode == SCAN_REQUEST) {
+                Log.v(TAG, data.getStringExtra("CODE"));
+                String raw = data.getStringExtra("CODE");
+                resultPending = raw;
+            }
         }
     }
 }
