@@ -63,6 +63,13 @@ public class MainActivity extends AppCompatActivity {
     public void onResume(){
         super.onResume();
         Log.v(TAG, "onResume");
+        if(resultPending.length() > 0){
+            Bundle result = new Bundle();
+            result.putString("CODE", resultPending);
+            Fragment fragmentRes = new ResultsFragment();
+            fragmentRes.setArguments(result);
+            fm.beginTransaction().add(R.id.main_container, fragmentRes, "Res").hide(activeFragment).commit();
+        }
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener

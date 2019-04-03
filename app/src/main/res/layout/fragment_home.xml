@@ -28,6 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        android:text="News or something idk\n\nMicrotransactions coming soon!\n\nFinally released!\n\nRelease delayed, Kickstarter goal set to triple\n\nNew game to work with brand new technology 'Bar Codes'"/>
+        android:textSize="14sp"
+        android:text="News or something idk\n\nMicrotransactions coming soon!\n\nFinally released!\n\nRelease delayed, Kickstarter goal set to triple\n\nNew app to work with brand new technology 'Bar Codes'"/>
 
 </LinearLayout>

@@ -4,14 +4,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#c2419b">
+    android:background="#999">
 
-    <android.support.v7.widget.RecyclerView
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"
+        android:text="Back"/>
+    <!--<android.support.v7.widget.RecyclerView
         android:id="@+id/covers_anim"
         android:layout_width="match_parent"
         android:paddingLeft="0dp"
         android:paddingRight="0dp"
         android:layout_height="wrap_content"
-        />
+        />-->
+
 
 </FrameLayout>

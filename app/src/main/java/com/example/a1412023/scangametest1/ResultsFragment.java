@@ -2,6 +2,7 @@ package com.example.a1412023.scangametest1;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,17 +12,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Array;
 import java.net.URL;
 
 
 public class ResultsFragment extends Fragment {
 
     private String code;
+
+    private View mRootView;
 
     private String TAG = "Fragment_Results";
 
@@ -30,6 +35,7 @@ public class ResultsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_results, container, false);
+        mRootView = view;
         return view;
     }
 
@@ -47,10 +53,10 @@ public class ResultsFragment extends Fragment {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            mLoadingIndicator.setVisibility(View.VISIBLE);
+            /*mLoadingIndicator.setVisibility(View.VISIBLE);
             mJsonText.setText("L o a d i n g\nl O a d i n g\nl o A d i n g\nl o a D i n g\nl o a d I n g\nl o a d i N g\nl o a d i n G\n");
             mCoverView.setVisibility(View.INVISIBLE);
-            mCoverView.setImageResource(0);
+            mCoverView.setImageResource(0);*/
         }
 
         @Override
@@ -67,26 +73,47 @@ public class ResultsFragment extends Fragment {
 
         @Override
         protected void onPostExecute(String searchResults) {
-            // COMPLETED (27) As soon as the loading is complete, hide the loading indicator
-            mLoadingIndicator.setVisibility(View.INVISIBLE);
+            //mLoadingIndicator.setVisibility(View.INVISIBLE);
             if (searchResults != null && !searchResults.equals("")) {
-                // COMPLETED (17) Call showJsonDataView if we have valid, non-null results
                 try {
                     JSONObject json = new JSONObject(searchResults);
-                    mJsonText.setText(json.toString(4));
-                    new DownloadImageTask((ImageView) findViewById(R.id.iv_cover_photo)).execute(json.getString("coverurl"));
+                    //mJsonText.setText(json.toString(4));
+                    //new DownloadImageTask((ImageView) mRootView.findViewById(R.id.iv_cover_photo)).execute(json.getString("coverurl"));
+                    JSONArray jsarr = (JSONArray)json.get("subjs");
+                    if (jsarr == null) { /*...*/ }
+                    int[] subjs = new int[jsarr.length()];
+                    for (int i = 0; i < jsarr.length(); ++i) {
+                        subjs[i] = jsarr.optInt(i);
+                    }
+                    Log.v(TAG, subjs.toString());
+                    int sum = 0;
+                    for(int i = 0; i < subjs.length; i++){
+                        sum += subjs[i];
+                    }
+                    double[][] colors = {{221, 51, 51},{229, 141, 27},{247, 247, 46},{60, 242, 43},{42, 119, 241},{188, 35, 234}};
+                    double[] color = {0, 0, 0};
+                    for(int i = 0; i < subjs.length; i++){
+                        for(int j = 0; j < 3; j++){
+                            color[j] += colors[i][j] * ((double)subjs[i])/sum;
+                        }
+                    }
+                    for(int j = 0; j < 3; ++j){
+                        color[j] = Math.min((int)color[j], 255);
+                    }
+                    mRootView.setBackgroundColor(Color.rgb((int)color[0],(int)color[1],(int)color[2]));
                 }catch (JSONException e){
-                    mJsonText.setText("oops");
+                    //mJsonText.setText("oops");
                 }
             } else {
                 // COMPLETED (16) Call showErrorMessage if the result is null in onPostExecute
-                mJsonText.setText("oop");
+                //mJsonText.setText("oop");
             }
         }
     }
 
+    /*
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-        ImageView bmImage;
+        private ImageView bmImage;
 
         public DownloadImageTask(ImageView bmImage) {
             this.bmImage = bmImage;
@@ -122,5 +149,5 @@ public class ResultsFragment extends Fragment {
             Log.v(TAG, "Cover visible");
             mLoadingIndicator.setVisibility(View.INVISIBLE);
         }
-    }
+    }*/
 }
