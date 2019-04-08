@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ScanningActivity"
+    tools:context="com.example.a1412023.InterStellarBookNights.ScanningActivity"
     android:background="#FFF">
 
     <EditText

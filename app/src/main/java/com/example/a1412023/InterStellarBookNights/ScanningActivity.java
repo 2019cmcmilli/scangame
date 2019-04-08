@@ -1,4 +1,4 @@
-package com.example.a1412023.scangametest1;
+package com.example.a1412023.InterStellarBookNights;
 
 import android.Manifest;
 import android.content.Intent;
@@ -22,6 +22,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 import android.support.design.widget.FloatingActionButton;
 
+import com.example.a1412023.scangametest1.R;
 import com.google.zxing.Result;
 import com.google.zxing.BarcodeFormat;
 

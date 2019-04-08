@@ -1,4 +1,4 @@
-package com.example.a1412023.scangametest1;
+package com.example.a1412023.InterStellarBookNights;
 
 import android.app.Activity;
 import android.content.Context;
@@ -10,8 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
-import java.net.URL;
+import com.example.a1412023.scangametest1.R;
 
 public class HomeFragment extends Fragment {
 
@@ -31,12 +32,19 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState){
         final Context context = getContext();
-        final Button button = view.findViewById(R.id.scan_button);
-        button.setOnClickListener(new View.OnClickListener() {
+        final Button scan_button = view.findViewById(R.id.scan_button);
+        scan_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(context, ScanningActivity.class);
                 intent.setAction(ACTION_SCAN_BARCODE);
                 getActivity().startActivityForResult(intent, SCAN_REQUEST);
+            }
+        });
+        final Button game_button = view.findViewById(R.id.game_button);
+        game_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context, "Not available on this patch :(", Toast.LENGTH_SHORT).show();
             }
         });
     }

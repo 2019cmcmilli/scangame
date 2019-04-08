@@ -1,4 +1,4 @@
-package com.example.a1412023.scangametest1;
+package com.example.a1412023.InterStellarBookNights;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

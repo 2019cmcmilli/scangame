@@ -1,7 +1,5 @@
-package com.example.a1412023.scangametest1;
+package com.example.a1412023.InterStellarBookNights;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -10,15 +8,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.Button;
+import android.widget.ProgressBar;
 
+import com.example.a1412023.scangametest1.R;
+
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Array;
 import java.net.URL;
 
 
@@ -27,21 +27,33 @@ public class ResultsFragment extends Fragment {
     private String code;
 
     private View mRootView;
+    private Button mBackButton;
+    private ProgressBar mLoadingIndicator;
 
     private String TAG = "Fragment_Results";
 
     public ResultsFragment(){}
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_results, container, false);
         mRootView = view;
         return view;
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState){
+    public void onViewCreated(@NotNull View view, Bundle savedInstanceState){
+        Log.v(TAG, "viewCreated");
         code = getArguments().getString("CODE");
+        mLoadingIndicator = mRootView.findViewById(R.id.pb_loading_indicator);
+        mBackButton = mRootView.findViewById(R.id.back_button);
+        mBackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity)getActivity()).hideResultFragment();
+
+            }
+        });
         Log.v(TAG, code);
         URL url = NetworkUtils.buildUrl(code);
         new OpenLibraryQueryTask().execute(url);
@@ -85,7 +97,6 @@ public class ResultsFragment extends Fragment {
                     for (int i = 0; i < jsarr.length(); ++i) {
                         subjs[i] = jsarr.optInt(i);
                     }
-                    Log.v(TAG, subjs.toString());
                     int sum = 0;
                     for(int i = 0; i < subjs.length; i++){
                         sum += subjs[i];
@@ -103,11 +114,15 @@ public class ResultsFragment extends Fragment {
                     mRootView.setBackgroundColor(Color.rgb((int)color[0],(int)color[1],(int)color[2]));
                 }catch (JSONException e){
                     //mJsonText.setText("oops");
+                    e.printStackTrace();
                 }
             } else {
                 // COMPLETED (16) Call showErrorMessage if the result is null in onPostExecute
                 //mJsonText.setText("oop");
+                Log.i(TAG, "No results");
             }
+            mBackButton.setVisibility(View.VISIBLE);
+            mLoadingIndicator.setVisibility(View.INVISIBLE);
         }
     }
 

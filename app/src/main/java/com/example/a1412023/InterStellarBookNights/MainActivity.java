@@ -1,7 +1,6 @@
-package com.example.a1412023.scangametest1;
+package com.example.a1412023.InterStellarBookNights;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,10 +10,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 
-import java.net.URL;
+import com.example.a1412023.scangametest1.R;
 
 public class MainActivity extends AppCompatActivity {
     public static final String ACTION_SCAN_BARCODE = "com.example.a1412023.scangametest1.action_scan_barcode";
@@ -27,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private final Fragment fragmentHome = new HomeFragment();
     private final Fragment fragmentCraft = new CraftFragment();
     private final FragmentManager fm = getSupportFragmentManager();
+    private Fragment fragmentRes;
     private Fragment activeFragment = fragmentHome;
 
     private String resultPending = "";
@@ -53,9 +51,10 @@ public class MainActivity extends AppCompatActivity {
         if(resultPending.length() > 0){
             Bundle result = new Bundle();
             result.putString("CODE", resultPending);
-            Fragment fragmentRes = new ResultsFragment();
+            fragmentRes = new ResultsFragment();
             fragmentRes.setArguments(result);
             fm.beginTransaction().add(R.id.main_container, fragmentRes, "Res").hide(activeFragment).commit();
+            resultPending = "";
         }
     }
 
@@ -66,9 +65,10 @@ public class MainActivity extends AppCompatActivity {
         if(resultPending.length() > 0){
             Bundle result = new Bundle();
             result.putString("CODE", resultPending);
-            Fragment fragmentRes = new ResultsFragment();
+            fragmentRes = new ResultsFragment();
             fragmentRes.setArguments(result);
             fm.beginTransaction().add(R.id.main_container, fragmentRes, "Res").hide(activeFragment).commit();
+            resultPending = "";
         }
     }
 
@@ -106,6 +106,11 @@ public class MainActivity extends AppCompatActivity {
     public void onRestoreInstanceState(Bundle bundle){
         super.onRestoreInstanceState(bundle);
         Log.v(TAG, "onRestoreInstanceState");
+    }
+
+    public void hideResultFragment(){
+        Log.v(TAG, "Hiding Results");
+        fm.beginTransaction().remove(fragmentRes).show(activeFragment).commit();
     }
 
     @Override

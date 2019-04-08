@@ -6,11 +6,20 @@
     android:orientation="vertical"
     android:background="#999">
 
+    <ProgressBar
+        android:id="@+id/pb_loading_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"/>
     <Button
+        android:id="@+id/back_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="30sp"
-        android:text="Back"/>
+        android:text="Back"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="50dp"
+        android:visibility="invisible"/>
     <!--<android.support.v7.widget.RecyclerView
         android:id="@+id/covers_anim"
         android:layout_width="match_parent"

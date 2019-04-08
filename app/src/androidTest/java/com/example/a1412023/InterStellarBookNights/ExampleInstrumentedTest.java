@@ -1,4 +1,4 @@
-package com.example.a1412023.scangametest1;
+package com.example.a1412023.InterStellarBookNights;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
