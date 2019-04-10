@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.a1412023.scangametest1.R;
+import com.example.a1412023.InterStellarBookNights.R;
 
 public class InvFragment extends Fragment {
 

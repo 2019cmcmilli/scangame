@@ -6,15 +6,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.a1412023.scangametest1.R;
+import com.example.a1412023.InterStellarBookNights.R;
 
-public class CraftFragment extends Fragment {
+public class ShelfFragment extends Fragment {
 
-    public CraftFragment(){}
+    public ShelfFragment(){}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_craft, container, false);
+        View view = inflater.inflate(R.layout.fragment_shelf, container, false);
         return view;
     }
 }

@@ -11,7 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 
-import com.example.a1412023.scangametest1.R;
+import com.example.a1412023.InterStellarBookNights.R;
 
 public class MainActivity extends AppCompatActivity {
     public static final String ACTION_SCAN_BARCODE = "com.example.a1412023.scangametest1.action_scan_barcode";
@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
     private final Fragment fragmentInv = new InvFragment();
     private final Fragment fragmentHome = new HomeFragment();
-    private final Fragment fragmentCraft = new CraftFragment();
+    private final Fragment fragmentShelf = new ShelfFragment();
     private final FragmentManager fm = getSupportFragmentManager();
     private Fragment fragmentRes;
     private Fragment activeFragment = fragmentHome;
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
         fm.beginTransaction().add(R.id.main_container, fragmentInv, "Ivn").hide(fragmentInv).commit();
         fm.beginTransaction().add(R.id.main_container, fragmentHome, "Home").commit();
-        fm.beginTransaction().add(R.id.main_container, fragmentCraft, "Craft").hide(fragmentCraft).commit();
+        fm.beginTransaction().add(R.id.main_container, fragmentShelf, "Shelf").hide(fragmentShelf).commit();
 
     }
 
@@ -87,9 +87,9 @@ public class MainActivity extends AppCompatActivity {
                     activeFragment = fragmentHome;
                     return true;
 
-                case R.id.navigation_craft:
-                    fm.beginTransaction().hide(activeFragment).show(fragmentCraft).commit();
-                    activeFragment = fragmentCraft;
+                case R.id.navigation_shelf:
+                    fm.beginTransaction().hide(activeFragment).show(fragmentShelf).commit();
+                    activeFragment = fragmentShelf;
                     return true;
             }
             return false;

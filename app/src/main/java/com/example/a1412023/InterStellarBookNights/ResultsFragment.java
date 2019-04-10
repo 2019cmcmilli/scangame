@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
 
-import com.example.a1412023.scangametest1.R;
+import com.example.a1412023.InterStellarBookNights.R;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -97,7 +97,7 @@ public class ResultsFragment extends Fragment {
                     for (int i = 0; i < jsarr.length(); ++i) {
                         subjs[i] = jsarr.optInt(i);
                     }
-                    int sum = 0;
+                    int sum = 1;
                     for(int i = 0; i < subjs.length; i++){
                         sum += subjs[i];
                     }

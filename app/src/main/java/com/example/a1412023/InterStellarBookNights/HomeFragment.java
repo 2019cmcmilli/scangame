@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.a1412023.scangametest1.R;
+import com.example.a1412023.InterStellarBookNights.R;
 
 public class HomeFragment extends Fragment {
 
