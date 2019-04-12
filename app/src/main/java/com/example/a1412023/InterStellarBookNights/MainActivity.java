@@ -29,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
 
     private String resultPending = "";
 
+    private Shelf shelf = new Shelf();
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -41,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
         fm.beginTransaction().add(R.id.main_container, fragmentInv, "Ivn").hide(fragmentInv).commit();
         fm.beginTransaction().add(R.id.main_container, fragmentHome, "Home").commit();
         fm.beginTransaction().add(R.id.main_container, fragmentShelf, "Shelf").hide(fragmentShelf).commit();
-
     }
 
     @Override
