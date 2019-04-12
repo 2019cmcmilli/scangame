@@ -32,7 +32,12 @@ public class ResultsFragment extends Fragment {
 
     private String TAG = "Fragment_Results";
 
+    private MainActivity mParentActivity;
+
     public ResultsFragment(){}
+
+    @Override
+    public void onAttach()
 
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
