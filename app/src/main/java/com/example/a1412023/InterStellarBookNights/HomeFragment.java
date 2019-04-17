@@ -16,7 +16,7 @@ import com.example.a1412023.InterStellarBookNights.R;
 
 public class HomeFragment extends Fragment {
 
-    public static final String ACTION_SCAN_BARCODE = "com.example.a1412023.scangametest1.action_scan_barcode";
+    public static final String ACTION_SCAN_BARCODE = "com.example.a1412023.InterStellarBookNights.action_scan_barcode";
     public static final int SCAN_REQUEST = 1;
     private static final String TAG = "Fragment_Home";
 

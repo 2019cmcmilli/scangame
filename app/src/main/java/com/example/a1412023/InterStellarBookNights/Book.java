@@ -3,15 +3,17 @@ package com.example.a1412023.InterStellarBookNights;
 import android.graphics.Bitmap;
 
 public class Book {
+    private String isbn;
     private String title;
     private String subtitle;
     private int[] subjs;
     private Bitmap cover;
     private int pubdate;
-    private int pagecount;
+    private int pages;
     private String note;
 
     public Book(){
+        isbn = "9780000000000";
         title = "Test Title";
         subtitle = "Test Subtitle";
         subjs = new int[]{20, 40, 0, 0, 4, 0};
@@ -21,11 +23,14 @@ public class Book {
         }
         cover = Bitmap.createBitmap(colors, 120, 200, Bitmap.Config.ARGB_8888);
         pubdate = 2014;
-        pagecount = 101;
+        pages = 101;
         note = "A good test! Would test again";
     }
     //public Book from data
 
+    public String getIsbn(){
+        return isbn;
+    }
     public String getTitle() {
         return title;
     }
@@ -41,8 +46,8 @@ public class Book {
     public int getPubdate() {
         return pubdate;
     }
-    public int getPagecount() {
-        return pagecount;
+    public int getPages() {
+        return pages;
     }
     public String getNote(){
         return note;

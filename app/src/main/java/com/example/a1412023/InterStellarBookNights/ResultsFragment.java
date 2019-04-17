@@ -1,5 +1,8 @@
 package com.example.a1412023.InterStellarBookNights;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -9,9 +12,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.example.a1412023.InterStellarBookNights.R;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
@@ -19,6 +28,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 
 
@@ -27,8 +37,17 @@ public class ResultsFragment extends Fragment {
     private String code;
 
     private View mRootView;
-    private Button mBackButton;
+
+
     private ProgressBar mLoadingIndicator;
+    private ImageView mCoverImage;
+    private TextView mTitleText;
+    private TextView mSubjectText;
+    private TextView mPagesText;
+    private TextView mPubdateText;
+    private Button mShelfButton;
+    private Button mRequestButton;
+    private Button mDiscardButton;
 
     private String TAG = "Fragment_Results";
 
@@ -37,7 +56,14 @@ public class ResultsFragment extends Fragment {
     public ResultsFragment(){}
 
     @Override
-    public void onAttach()
+    public void onAttach(Context context){
+        super.onAttach(context);
+        if(context instanceof MainActivity){
+            mParentActivity = (MainActivity) context;
+        }else{
+            Log.w(TAG, "No parent activity found for results fragment!");
+        }
+    }
 
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -50,15 +76,34 @@ public class ResultsFragment extends Fragment {
     public void onViewCreated(@NotNull View view, Bundle savedInstanceState){
         Log.v(TAG, "viewCreated");
         code = getArguments().getString("CODE");
+
+        mCoverImage  = mRootView.findViewById(R.id.iv_result_cover);
+        mTitleText   = mRootView.findViewById(R.id.tv_title);
+        mSubjectText = mRootView.findViewById(R.id.tv_subject);
+        mPubdateText = mRootView.findViewById(R.id.tv_pubdate);
+        mPagesText   = mRootView.findViewById(R.id.tv_pages);
+
+
         mLoadingIndicator = mRootView.findViewById(R.id.pb_loading_indicator);
-        mBackButton = mRootView.findViewById(R.id.back_button);
-        mBackButton.setOnClickListener(new View.OnClickListener() {
+        mShelfButton = mRootView.findViewById(R.id.shelf_button);
+        mShelfButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity)getActivity()).hideResultFragment();
-
+                //TODO: Add to shelf from results routine
+                mParentActivity.hideResultFragment();
             }
         });
+        mRequestButton = mRootView.findViewById(R.id.request_quick_fulfill_button);
+        //TODO: Request quick fulfill routine
+        mDiscardButton = mRootView.findViewById(R.id.quick_discard_button);
+        mDiscardButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO: Confirmation on quick discard
+                mParentActivity.hideResultFragment();
+            }
+        });
+
         Log.v(TAG, code);
         URL url = NetworkUtils.buildUrl(code);
         new OpenLibraryQueryTask().execute(url);
@@ -89,35 +134,24 @@ public class ResultsFragment extends Fragment {
         }
 
         @Override
-        protected void onPostExecute(String searchResults) {
+        protected void onPostExecute(String response) {
             //mLoadingIndicator.setVisibility(View.INVISIBLE);
-            if (searchResults != null && !searchResults.equals("")) {
+            if (response != null && !response.equals("")) {
                 try {
-                    JSONObject json = new JSONObject(searchResults);
-                    //mJsonText.setText(json.toString(4));
-                    //new DownloadImageTask((ImageView) mRootView.findViewById(R.id.iv_cover_photo)).execute(json.getString("coverurl"));
-                    JSONArray jsarr = (JSONArray)json.get("subjs");
-                    if (jsarr == null) { /*...*/ }
-                    int[] subjs = new int[jsarr.length()];
-                    for (int i = 0; i < jsarr.length(); ++i) {
-                        subjs[i] = jsarr.optInt(i);
+                    JsonParser parser = new JsonParser();
+                    JsonObject obj = parser.parse(response).getAsJsonObject();
+                    String coverurl = obj.get("coverurl").getAsString();
+                    new DownloadImageTask(mCoverImage).execute(coverurl);
+                    mTitleText.setText("Title: "+obj.get("title").getAsString());
+                    JsonArray subjs = obj.get("subjs").getAsJsonArray();
+                    String subjstr = "";
+                    for(int i = 0; i < subjs.size(); ++i){
+                        subjstr += subjs.get(i).getAsInt() + " ";
                     }
-                    int sum = 1;
-                    for(int i = 0; i < subjs.length; i++){
-                        sum += subjs[i];
-                    }
-                    double[][] colors = {{221, 51, 51},{229, 141, 27},{247, 247, 46},{60, 242, 43},{42, 119, 241},{188, 35, 234}};
-                    double[] color = {0, 0, 0};
-                    for(int i = 0; i < subjs.length; i++){
-                        for(int j = 0; j < 3; j++){
-                            color[j] += colors[i][j] * ((double)subjs[i])/sum;
-                        }
-                    }
-                    for(int j = 0; j < 3; ++j){
-                        color[j] = Math.min((int)color[j], 255);
-                    }
-                    mRootView.setBackgroundColor(Color.rgb((int)color[0],(int)color[1],(int)color[2]));
-                }catch (JSONException e){
+                    mSubjectText.setText("Subjects: "+subjstr);
+                    mPagesText.setText("Pages: "+obj.get("pages").getAsInt()+"");
+                    mPubdateText.setText("Published: "+obj.get("pubdate").getAsString());
+                }catch (NullPointerException e){
                     //mJsonText.setText("oops");
                     e.printStackTrace();
                 }
@@ -126,12 +160,10 @@ public class ResultsFragment extends Fragment {
                 //mJsonText.setText("oop");
                 Log.i(TAG, "No results");
             }
-            mBackButton.setVisibility(View.VISIBLE);
-            mLoadingIndicator.setVisibility(View.INVISIBLE);
         }
     }
 
-    /*
+
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
         private ImageView bmImage;
 
@@ -142,8 +174,6 @@ public class ResultsFragment extends Fragment {
         @Override
         protected void onPreExecute(){
             super.onPreExecute();
-            bmImage.setVisibility(View.INVISIBLE);
-            bmImage.setImageResource(0);
             mLoadingIndicator.setVisibility(View.VISIBLE);
         }
 
@@ -165,9 +195,8 @@ public class ResultsFragment extends Fragment {
         protected void onPostExecute(Bitmap result) {
             bmImage.setImageBitmap(result);
             bmImage.requestLayout();
-            bmImage.setVisibility(View.VISIBLE);
             Log.v(TAG, "Cover visible");
             mLoadingIndicator.setVisibility(View.INVISIBLE);
         }
-    }*/
+    }
 }

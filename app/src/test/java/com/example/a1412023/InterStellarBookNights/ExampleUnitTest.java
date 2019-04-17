@@ -1,4 +1,4 @@
-package com.example.a1412023.scangametest1;
+package com.example.a1412023.InterStellarBookNights;
 
 import org.junit.Test;
 

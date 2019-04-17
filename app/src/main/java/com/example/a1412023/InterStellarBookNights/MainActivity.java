@@ -14,7 +14,7 @@ import android.view.MenuItem;
 import com.example.a1412023.InterStellarBookNights.R;
 
 public class MainActivity extends AppCompatActivity {
-    public static final String ACTION_SCAN_BARCODE = "com.example.a1412023.scangametest1.action_scan_barcode";
+    //public static final String ACTION_SCAN_BARCODE = "com.example.a1412023.InterStellarBookNights.action_scan_barcode";
     public static final int SCAN_REQUEST = 1;
     private String TAG = "Activity_Main";
 
@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     private String resultPending = "";
 
-    private Shelf shelf = new Shelf();
+    public Shelf shelf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -43,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
         fm.beginTransaction().add(R.id.main_container, fragmentInv, "Ivn").hide(fragmentInv).commit();
         fm.beginTransaction().add(R.id.main_container, fragmentHome, "Home").commit();
         fm.beginTransaction().add(R.id.main_container, fragmentShelf, "Shelf").hide(fragmentShelf).commit();
+
+        shelf  = new Shelf(getApplicationContext());
     }
 
     @Override
