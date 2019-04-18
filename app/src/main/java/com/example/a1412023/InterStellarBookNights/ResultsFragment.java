@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.a1412023.InterStellarBookNights.R;
 import com.google.gson.Gson;
@@ -35,9 +36,9 @@ import java.net.URL;
 public class ResultsFragment extends Fragment {
 
     private String code;
+    private Book latestBook;
 
     private View mRootView;
-
 
     private ProgressBar mLoadingIndicator;
     private ImageView mCoverImage;
@@ -89,8 +90,11 @@ public class ResultsFragment extends Fragment {
         mShelfButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: Add to shelf from results routine
-                mParentActivity.hideResultFragment();
+                if(mParentActivity.shelf.addBook(latestBook)){
+                    mParentActivity.hideResultFragment();
+                }else{
+                    Toast.makeText(mParentActivity, "Failed to add book", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         mRequestButton = mRootView.findViewById(R.id.request_quick_fulfill_button);
@@ -197,6 +201,11 @@ public class ResultsFragment extends Fragment {
             bmImage.requestLayout();
             Log.v(TAG, "Cover visible");
             mLoadingIndicator.setVisibility(View.INVISIBLE);
+            mShelfButton.setVisibility(View.VISIBLE);
+            if(!mParentActivity.shelf.hasRoom()){
+                mDiscardButton.setVisibility(View.VISIBLE);
+            }
+            //TODO: Request applicability check
         }
     }
 }

@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         fm.beginTransaction().add(R.id.main_container, fragmentHome, "Home").commit();
         fm.beginTransaction().add(R.id.main_container, fragmentShelf, "Shelf").hide(fragmentShelf).commit();
 
-        shelf  = new Shelf(getApplicationContext());
+        shelf = new Shelf(this);
     }
 
     @Override

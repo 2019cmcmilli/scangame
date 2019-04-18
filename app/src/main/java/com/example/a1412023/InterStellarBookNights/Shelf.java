@@ -17,6 +17,9 @@ public class Shelf {
     //public Shelf from data
 
     public boolean addBook(Book b){
+        if(b == null){
+            return false;
+        }
         for(int i = 0; i < books.length; ++i){
             if(books[i] == null){
                 books[i] = b;
@@ -57,6 +60,15 @@ public class Shelf {
         return books[i];
     }
 
+    public boolean hasRoom(){
+        for(int i = 0; i < books.length; ++i){
+            if(books[i] == null){
+                return true;
+            }
+        }
+        return false;
+    }
+
     private boolean updateStoredModel(int i){
         Gson gson = new Gson();
         try {
@@ -67,6 +79,7 @@ public class Shelf {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return false;
+        //TODO: Image saving and proper returns
+        return true;
     }
 }
